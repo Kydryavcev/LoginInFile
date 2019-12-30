@@ -7,6 +7,7 @@
     <title>User page</title>
 </head>
 <body>
+<!-- content management template -->
 <form action="index.php" method="POST">
     <input type="submit" name="exet" value="Выход с аккаунта">
     <input type="submit" name="static" value="Списк пользователей">
@@ -19,6 +20,7 @@
     <input type="text" name="ID_User_del" placeholder="Введите ID пользователя">
     <input type="submit" name="delete" value="Удалить пользователя">
 </form><br>
+<!-- user output -->
     <?
     if (isset($content)) 
     {

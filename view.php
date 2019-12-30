@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>User page</title>
+    <title>Login page</title>
 </head>
 <body>
+<!-- login and registration template -->
     <div style="display: flex; ">
         <form action="<?=$_SERVER['SCRIPT_NAME']?>" style="margin-right: 20px;" method="POST">
             <p>Вход:</p><br>

@@ -1,36 +1,45 @@
 <?php
 session_start();
-require_once 'vendor/liv/User.php';
+# class connection
+require_once 'vendor/liv/UserInsert.php';
+require_once 'vendor/liv/UserLogin.php';
+require_once 'vendor/liv/GetUsers.php';
+require_once 'vendor/liv/UserDelete.php';
 
-use vendor\liv\User;
+use vendor\liv\UserInsert;
+use vendor\liv\UserLogin;
+use vendor\liv\GetUsers;
+use vendor\liv\UserDelete;
 
-$user = new User();
-
+# display user information
 if (isset($_REQUEST['static'])) 
 {
-    $content = $user->getAll(); 
+    $getUsers = new GetUsers();
+    $content = $getUsers -> getAll(); 
     unset($_REQUEST['static']);
 }
-
+# exit from account
 if (isset($_REQUEST['exet'])) 
 {
     unset($_SESSION['login']);
     setcookie ("id", "", time() - 3600);
     unset($_REQUEST['exet']);
+    header("Location: ".$_SERVER["REQUEST_URI"]);
 }
-
+# user search
 if (isset($_REQUEST['find'])) 
 {
-    $infoUserFind = $user->findByID($_REQUEST['ID_User']);
+    $getUsers = new GetUsers();
+    $infoUserFind = $getUsers->findByID($_REQUEST['ID_User']);
     unset($_REQUEST['find']);
 }
-
+# user delete
 if (isset($_REQUEST['delete'])) 
 {
-    echo $user->delete($_REQUEST['ID_User_del']);
+    new UserDelete($_REQUEST['ID_User_del']);
     unset($_REQUEST['delete']);
 }
-
+# user registration
 if (isset($_POST['registr'])) 
 {
 
@@ -44,7 +53,8 @@ if (isset($_POST['registr']))
             {
                 $login = $_REQUEST['nameNewUser'];
                 $password = trim($_REQUEST['passwordUser1']);
-                echo $user->insert($login, $password);
+                new UserInsert($login, $password);
+                header("Location: ".$_SERVER["REQUEST_URI"]);
             }else {
                 echo 'Пароли не совпадают.'; 
             }  
@@ -57,13 +67,14 @@ if (isset($_POST['registr']))
         echo 'Введите логин в поле для регистрации';
     }    
 }
-
+# login to account
 if (isset($_POST['login'])) 
 {
     if (!empty($_REQUEST['nameUser'])) {
         if (!empty($_REQUEST['passwordUser'])) 
         {
-            echo $user->login($_REQUEST['nameUser'], $_REQUEST['passwordUser']);
+            new UserLogin($_REQUEST['nameUser'], $_REQUEST['passwordUser']);
+            header("Location: ".$_SERVER["REQUEST_URI"]);
         }else {
             echo 'Введите пароль в поле для вход';
         }
@@ -72,11 +83,11 @@ if (isset($_POST['login']))
     }
 
 }
-
+# connecting templates
 if ($_SESSION['login']||$_COOKIE['id']) 
 {
-    require_once 'view_info.php';
+    require_once 'view_info.php'; # if logged in
 }else {
-    require_once 'view.php';
+    require_once 'view.php'; # if not logged in
 }
 
