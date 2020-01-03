@@ -54,7 +54,6 @@ if (isset($_POST['registr']))
                 $login = $_REQUEST['nameNewUser'];
                 $password = trim($_REQUEST['passwordUser1']);
                 new UserInsert($login, $password);
-                header("Location: ".$_SERVER["REQUEST_URI"]);
             }else {
                 echo 'Пароли не совпадают.'; 
             }  

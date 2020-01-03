@@ -15,7 +15,7 @@ class UserLogin
             if ($result[1] == $login) 
             {
                 $errros[0] = null;
-                if (trim($result[2]) == trim($password))
+                if (password_verify(trim($password), trim($result[2])))
                 {
 
                     if (!empty($_REQUEST['saveUser']))
